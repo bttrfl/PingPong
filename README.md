@@ -10,7 +10,7 @@
 ## Как это выглядит
 ### Главное меню  
 ![Main menu](https://i.imgur.com/loz38mJ.png)
-### Игровой экран
+### Геймплей
 ![In-game screen](https://www.funstockretro.co.uk/news/wp-content/uploads/2017/07/Pong-653x400.png)
 
 ## Если успеем...
