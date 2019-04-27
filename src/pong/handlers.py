@@ -31,6 +31,18 @@ async def landing_handler(request):
     pass
 
 
+#returns a json serialized leaderboard data from database
+async def show_leaderboard(request):
+    pass
+
+
+#updates winrate for a specific user
+@session_middleware
+async def update_leaderboard(request):
+    pass
+
+
+#background tasks
 async def start_background_tasks(app):
     app['matchmaker'] = app.loop.create_task(matchmaker(queue))
 
