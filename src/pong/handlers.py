@@ -34,19 +34,4 @@ async def start_background_tasks(app):
 async def cleanup_background_tasks(app):
     app['matchmaker'].cancel()
     await app['matchmaker']
-<<<<<<< HEAD
 
-
-async def landing_handler(request):
-    index = open('../../static/html/page.html')
-    return web.Response(body=index.read().encode('utf-8'), content_type='text/html')
-
-
-app.add_routes([web.get('/ws', websocket_handler),
-                web.get('/', landing_handler)])
-app.on_startup.append(start_background_tasks)
-app.on_cleanup.append(cleanup_background_tasks)
-web.run_app(app)
-
-=======
->>>>>>> master
