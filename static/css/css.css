@@ -1,3 +1,17 @@
 body {
+	background-color: #696969;
+}
 
+
+.canvas {
+	margin-top: 200px;
+}
+
+
+img {
+	max-width: 480px;
+	width: 100%;
+	height: auto;
+    display: block;
+    margin: auto;
 }
