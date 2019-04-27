@@ -35,7 +35,7 @@ function keydown(socket) {
             l.style.top = nfp(l.style.top) + ps + "px";
         
         var msg = {
-          event: "moveUp";
+          event: "moveUp"
         }
         socket.send(JSON.stringify(msg));
     }
@@ -48,11 +48,24 @@ function keydown(socket) {
             l.style.top = nfp(l.style.top) - ps + "px";
         
         var msg = {
-          event: "moveDown";
+          event: "moveDown"
         }
         socket.send(JSON.stringify(msg));
     }
 }
+
+
+
+var speedx = 3,
+    speedy = 1;
+var balltime = 1;
+b.style.left = w / 2 + "px";
+
+function ball() {
+    b.style.left = nfp(b.style.left) + speedx + "px";
+    b.style.top = nfp(b.style.top) + speedy + "px";
+}
+
 
 
 
@@ -76,7 +89,6 @@ function opponentkeydown(direction){
 
 
 function game(){
-
   var socket = new WebSocket(
     "ws://0.0.0.0:8080/ws"
 //    window.location.protocol == 'https:' ? 'wss://' : 'ws://' +

@@ -21,6 +21,7 @@ async def matchmaker(queue):
 async def websocket_handler(request):
     print("kek2")
     ws = web.WebSocketResponse()
+    print('ws made')
     await ws.prepare(request)
     await queue.put(ws)
     return ws
