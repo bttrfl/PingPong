@@ -1,5 +1,24 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <script src="../js/connection.js"></script>
+       <title>Ping Pong GaMe</title>
+       <script src="../js/connection.js"></script>
+       <link rel="stylesheet" type="text/css" href="../css/page.css">
     </head>
+    <body>
+    	<div class="landing" id="main">
+    		<img src="../img/pong-sheet.png">
+    		<img src="../img/redmenubg-sheet.png">
+    		<div class="button" onclick="game()">Multiplayer</div>
+    	</div>
+    	<div class="game" style="visibility: hidden;" id="game">
+    		<div id="left"></div>
+    		<div id="ball"></div>
+    		<div id="right"></div>
+    		<center>
+    		<span id="scoreleft">0 </span><span id="deli"> : </span><span id="scoreright"> 0</span>
+    		<br>
+    		<span id="goal">GOAL !!!</span>  
+    	</div>
+    </body>
 </html>

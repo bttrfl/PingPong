@@ -38,3 +38,4 @@ async def start_background_tasks(app):
 async def cleanup_background_tasks(app):
     app['matchmaker'].cancel()
     await app['matchmaker']
+

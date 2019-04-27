@@ -1,0 +1,77 @@
+body {
+	background-color: #404040;
+}
+
+
+html,body{
+    margin:0;
+    padding: 0;
+}
+
+body{
+   overflow: hidden;
+}
+
+.landing {
+	margin-top: 200px;
+}
+
+
+img {
+	max-width: 480px;
+	width: 100%;
+	height: auto;
+    display: block;
+    margin: auto;
+}
+
+
+.button {
+	margin-top: 20px;
+	margin: auto;
+	color: red;
+	background-color: #696969;
+	font-size: 40px;
+	font-family: "Courier New";
+	width: 480px;
+	height: 70px;
+	padding-top: 30px;
+	text-align: center;
+}
+
+
+#left{
+    position: relative;
+    width: 30px;
+    height: 200px;
+    background-color: white;
+    float: left;
+}
+
+#right{
+    position: relative;
+    width: 30px;
+    height: 200px;
+    background-color: white;    
+    float: right;
+}
+
+#ball{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color:white;
+    border-radius: 50%;
+}
+
+#deli,#scoreleft,#scoreright{
+    font-size: 1000%;
+    color: white;
+    z-index: 10;
+}
+
+#goal{
+    font-size: 1000%;
+    transition: 1.5s all;
+    display: inline-block;
+}
