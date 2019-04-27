@@ -1,4 +1,7 @@
+#static files lie here
 static_path: static
+
+#mysql credentials
 mysql:
     host: mysql
     user: root

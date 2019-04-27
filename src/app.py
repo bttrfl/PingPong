@@ -7,6 +7,7 @@ import aiomysql
 import argparse
 
 
+#runs pong server
 def main():
     parser = argparse.ArgumentParser(description="Pong online app server")
     parser.add_argument('--config')
@@ -24,6 +25,7 @@ def main():
         return 1
 
 
+#setup routes, static files etc, connect to db
 async def init_app(conf):
     app = web.Application()
 
