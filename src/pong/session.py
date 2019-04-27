@@ -2,7 +2,8 @@ import asyncio
 import aiohttp
 import json
 
-async def handler(client1, client2):
+
+async def session_handler(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
         loop.create_task(sync_events(client1, client2)),
@@ -10,6 +11,7 @@ async def handler(client1, client2):
     ]
 
     await asyncio.wait(*tasks)
+
 
 async def sync_events(sender, reciever):
     loop = asyncio.get_event_loop()
