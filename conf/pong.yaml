@@ -1,6 +1,6 @@
 static_path: static
 mysql:
     host: mysql
-    user: pong
-    password: viemka
+    user: root
+    password: root
     db: pong

@@ -31,7 +31,7 @@ async def init_app(conf):
     app.db = await aiomysql.connect(**app.conf["mysql"])
 
     app.add_routes(routes)
-    app.add_static("/static", app.conf["static_path"])
+    app.router.add_static("/static", app.conf["static_path"])
 
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
