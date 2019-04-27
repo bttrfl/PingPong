@@ -13,7 +13,7 @@ def main():
     options = parser.parse_args()
 
     with open(options.config, 'r') as yml:
-        conf = yaml.load(yml)
+        conf = yaml.load(yml, Loader=yaml.CLoader)
 
     app = init_app(conf)
 

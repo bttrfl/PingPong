@@ -17,9 +17,9 @@ services:
 
     mysql:
         image: mysql:latest
-        retart: on-failure
-        ports: 
-            - 3306:3306
+        restart: on-failure
+        volumes:
+            - ./data:/var/lib/mysql
         networks:
             pong-net:
                 aliases:

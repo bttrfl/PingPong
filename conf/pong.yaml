@@ -3,4 +3,4 @@ mysql:
     host: mysql
     user: pong
     password: viemka
-    db: leaderboard
+    db: pong
