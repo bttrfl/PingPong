@@ -1,1 +1,30 @@
 version: '3.0'
+
+services:
+    pong:
+        image: pong:latest
+        restart: on-failure
+        volumes:
+            - ./:/app
+        ports:
+            - 8080:8080
+        depends_on:
+            - mysql
+        networks:
+            pong-net:
+                aliases:
+                    - pong
+
+    mysql:
+        image: mysql:latest
+        retart: on-failure
+        ports: 
+            - 3306:3306
+        networks:
+            pong-net:
+                aliases:
+                    - mysql
+
+networks:
+    pong-net:
+        driver: bridge
