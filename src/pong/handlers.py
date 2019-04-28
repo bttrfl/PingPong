@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 from .session import session_handler
 from aiohttp import web
+import aiohttp_jinja2
 
 #a queue for incoming ws clients(game oponents)
 queue = asyncio.Queue()
@@ -27,9 +28,10 @@ async def websocket_handler(request):
     return ws
 
 
-#a handler for the landing page
+#a handler for the main page
+@aiohttp_jinja2.template('index.html')
 async def landing_handler(request):
-    pass
+    return {}
 
 
 #returns a json serialized leaderboard data from database
@@ -51,4 +53,3 @@ async def start_background_tasks(app):
 async def cleanup_background_tasks(app):
     app['matchmaker'].cancel()
     await app['matchmaker']
-
