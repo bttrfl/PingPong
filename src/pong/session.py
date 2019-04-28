@@ -5,25 +5,26 @@ import json
 
 #handles game sessions
 async def session_handler(client1, client2):
-    await start_game(client1, client2)
-
+    await start_game(client1[0], client2[0])
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(sync_events(client1, client2)),
-        loop.create_task(sync_events(client2, client1)),
+        loop.create_task(sync_events(client1[0], client2[0])),
+        loop.create_task(sync_events(client2[0], client1[0])),
     ]
 
-    await asyncio.wait(*tasks)
+    await asyncio.wait(tasks)
+    client1[1].set()
+    client2[1].set()
 
 
 #sends events. indicating the game is ready to begin
-async def start_game(cleint1, client2):
-    loop = asycio.get_event_loop()
+async def start_game(client1, client2):
+    loop = asyncio.get_event_loop()
     tasks = [
         loop.create_task(client1.send_json({"event": "gameReady"})),
         loop.create_task(client2.send_json({"event": "gameReady"})),
     ]
-    await asyncio.wait(*tasks)
+    await asyncio.wait(tasks)
 
 
 #syncs events between two clients in a game session

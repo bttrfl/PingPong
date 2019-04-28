@@ -19,10 +19,11 @@ async def matchmaker(queue):
 
 #accepts ws clients and puts them in the oponent queue
 async def websocket_handler(request):
-    print("kek2")
     ws = web.WebSocketResponse()
+    lock = asyncio.Event()
     await ws.prepare(request)
-    await queue.put(ws)
+    await queue.put((ws, lock))
+    await lock.wait()
     return ws
 
 

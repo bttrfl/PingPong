@@ -35,7 +35,7 @@ function keydown(socket) {
             l.style.top = nfp(l.style.top) + ps + "px";
         
         var msg = {
-          event: "moveUp";
+          event: "moveUp"
         }
         socket.send(JSON.stringify(msg));
     }
@@ -48,11 +48,24 @@ function keydown(socket) {
             l.style.top = nfp(l.style.top) - ps + "px";
         
         var msg = {
-          event: "moveDown";
+          event: "moveDown"
         }
         socket.send(JSON.stringify(msg));
     }
 }
+
+
+
+var speedx = 3,
+    speedy = 1;
+var balltime = 1;
+b.style.left = w / 2 + "px";
+
+function ball() {
+    b.style.left = nfp(b.style.left) + speedx + "px";
+    b.style.top = nfp(b.style.top) + speedy + "px";
+}
+
 
 
 
@@ -76,7 +89,6 @@ function opponentkeydown(direction){
 
 
 function game(){
-
   var socket = new WebSocket(
     "ws://0.0.0.0:8080/ws"
 //    window.location.protocol == 'https:' ? 'wss://' : 'ws://' +
@@ -91,6 +103,7 @@ function game(){
   socket.onclose = function(event) {
 
     document.getElementById('main').style.visibility = 'visible';
+    document.getElementById('main').style.visibility = 'block';
     document.getElementById('game').style.visibility = 'hidden';
     document.body.style.backgroundColor = '#404040';
   };
@@ -101,26 +114,31 @@ function game(){
     switch(msg.event){
       case "gameReady":
         document.getElementById('main').style.visibility = 'hidden';
+        document.getElementById('main').style.display = 'none';
         document.getElementById('game').style.visibility = 'visible';
         document.body.style.backgroundColor = 'black';
 
         setInterval(function() {
           keydown(socket);
         }, 10);
-
+        break;
       case "moveUp":
         opponentkeydown(true);
+        break;
       case "moveDown":
         opponentkeydown(false);
+        break;
       case "gameOver":
         alert('not implemented');
+        break;
       case "wsError":
         alert('not implemented');
+        break;
     }
   };
 
   socket.onerror = function(error) {
-    alert("C7 " + error.message);
+    alert(error.message);
   };
 
 
