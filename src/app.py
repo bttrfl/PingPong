@@ -5,6 +5,8 @@ import sys
 import yaml
 #import aiomysql
 import argparse
+import jinja2
+import aiohttp_jinja2
 
 
 #runs pong server
@@ -34,6 +36,7 @@ async def init_app(conf):
 
     app.add_routes(routes)
     app.router.add_static("/static", app.conf["static_path"])
+    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(app.conf["template_path"]))
 
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
