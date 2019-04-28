@@ -103,6 +103,7 @@ function game(){
   socket.onclose = function(event) {
 
     document.getElementById('main').style.visibility = 'visible';
+    document.getElementById('main').style.visibility = 'block';
     document.getElementById('game').style.visibility = 'hidden';
     document.body.style.backgroundColor = '#404040';
   };
@@ -113,26 +114,31 @@ function game(){
     switch(msg.event){
       case "gameReady":
         document.getElementById('main').style.visibility = 'hidden';
+        document.getElementById('main').style.display = 'none';
         document.getElementById('game').style.visibility = 'visible';
         document.body.style.backgroundColor = 'black';
 
         setInterval(function() {
           keydown(socket);
         }, 10);
-
+        break;
       case "moveUp":
         opponentkeydown(true);
+        break;
       case "moveDown":
         opponentkeydown(false);
+        break;
       case "gameOver":
         alert('not implemented');
+        break;
       case "wsError":
         alert('not implemented');
+        break;
     }
   };
 
   socket.onerror = function(error) {
-    alert("C7 " + error.message);
+    alert(error.message);
   };
 
 
