@@ -17,7 +17,7 @@ async def session_handler(client1, client2):
     client2.set_finished()
 
 
-#sends events. indicating the game is ready to begin
+#sends events indicating the game is ready to begin
 async def start_game(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [

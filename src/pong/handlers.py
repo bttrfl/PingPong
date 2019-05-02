@@ -49,19 +49,11 @@ async def show_leaderboard(request):
     pass
 
 
-#updates winrate for a specific user
-@session_middleware
-async def update_leaderboard(request):
-    pass
-
-
 #auth handlers
-@session_middleware
 async def logout_handler(request):
     pass
 
 
-@session_middleware
 async def login_handelr(request):
     pass
 

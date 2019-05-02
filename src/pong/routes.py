@@ -7,7 +7,6 @@ routes = [
     web.get("/", landing_handler),
     web.get("/ws/game", game_handler),
     web.get("/leaderboard/show", show_leaderboard),
-    web.post("/leaderboard/update", update_leaderboard),
     web.post("/user/login", login_handler),
     web.get("/user/logout", logout_handler),
 ]
