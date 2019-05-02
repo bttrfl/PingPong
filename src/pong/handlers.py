@@ -55,10 +55,10 @@ async def show_leaderboard(request):
     db = request.app.db
     async with db.cursor() as cur:
         await cur.execute(query)
-        data = await cursor.fetchall()
+        data = await cur.fetchall()
 
-    json = json.dumps({"data": data})
-    return web.Response(text=json, content_type="application/json")
+    serialzed = json.dumps({"data": data})
+    return web.Response(text=serialzed, content_type="application/json")
 
 
 #auth handlers
