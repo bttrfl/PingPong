@@ -10,3 +10,6 @@ mysql:
     user: root
     password: root
     db: pong
+
+#redis instance for sessions
+redis_addr: redis

@@ -3,7 +3,7 @@ version: '3.0'
 services:
     #pong online server
     pong:
-        image: pong:latest
+        image: pong:0.0.1
         restart: on-failure
         volumes:
             - ./:/app
@@ -18,7 +18,7 @@ services:
 
     #database for leaderboard
     mysql:
-        image: mysql:latest
+        image: mysql:8.0
         command: --default-authentication-plugin=mysql_native_password
         restart: on-failure
         volumes:
@@ -29,6 +29,13 @@ services:
             pong-net:
                 aliases:
                     - mysql
+    redis:
+        restart: on-failure 
+        image: redis:4.0
+        networks:
+            pong-net:
+              aliases:
+                  - redis
 
 networks:
     pong-net:

@@ -105,7 +105,7 @@ async def login_handler(request):
 
 async def create_session(request, uid):
     session = await new_session(request)
-    session.set_new_identity(uid)
+    session["uid"] = uid
 
 
 #gets userid from a database for a given username and password

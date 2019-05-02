@@ -7,8 +7,9 @@ import aiomysql
 import argparse
 import jinja2
 import aiohttp_jinja2
+import aioredis
 from aiohttp_session import setup
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
+from aiohttp_session.redis_storage import RedisStorage
 
 
 #runs pong server
@@ -32,15 +33,17 @@ def main():
 #setup routes, static files etc, connect to db
 async def init_app(conf):
     app = web.Application()
-
     app.conf = conf
+
+    #setup session storage
+    redis = await aioredis.create_pool((app.conf["redis_addr"], 6379))
+    setup(app, RedisStorage(redis))
+
     app.db = await aiomysql.connect(**app.conf["mysql"], autocommit=True)
 
     app.add_routes(routes)
     app.router.add_static("/static", app.conf["static_path"])
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(app.conf["template_path"]))
-    #TODO replace with a real key
-    setup(app, EncryptedCookieStorage(b'Thirty  two  length  bytes  key.'))
 
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)

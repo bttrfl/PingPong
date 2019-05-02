@@ -4,3 +4,4 @@ aiomysql
 jinja2
 aiohttp_jinja2
 aiohttp_session
+aioredis
