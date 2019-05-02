@@ -3,7 +3,7 @@ from pong.handlers import start_background_tasks, cleanup_background_tasks
 from aiohttp import web
 import sys
 import yaml
-#import aiomysql
+import aiomysql
 import argparse
 import jinja2
 import aiohttp_jinja2
@@ -32,7 +32,7 @@ async def init_app(conf):
     app = web.Application()
 
     app.conf = conf
-#    app.db = await aiomysql.connect(**app.conf["mysql"])
+    app.db = await aiomysql.connect(**app.conf["mysql"])
 
     app.add_routes(routes)
     app.router.add_static("/static", app.conf["static_path"])
