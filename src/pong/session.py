@@ -5,24 +5,24 @@ import json
 
 #handles game sessions
 async def session_handler(client1, client2):
-    await start_game(client1[0], client2[0])
+    await start_game(client1, client2)
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(sync_events(client1[0], client2[0])),
-        loop.create_task(sync_events(client2[0], client1[0])),
+        loop.create_task(sync_events(client1, client2)),
+        loop.create_task(sync_events(client2, client1)),
     ]
 
     await asyncio.wait(tasks)
-    client1[1].set()
-    client2[1].set()
+    client1.set_finished()
+    client2.set_finished()
 
 
 #sends events. indicating the game is ready to begin
 async def start_game(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(client1.send_json({"event": "gameReady"})),
-        loop.create_task(client2.send_json({"event": "gameReady"})),
+        loop.create_task(client1.notify(EVT_READY)),
+        loop.create_task(client2.notify(EVT_READY)),
     ]
     await asyncio.wait(tasks)
 
@@ -41,8 +41,8 @@ async def sync_events(sender, reciever):
                 continue
 
             #don't wait for response, just create a background task
-            loop.create_task(reciever.send_json({"event": event}))
+            loop.create_task(reciever.notify(event))
 
         #special event is sent in case of ws error
         elif msg.type == aiohttp.WSMsgType.ERROR:
-            loop.create_task(reciever.send_json({"event": "wsError"}))
+            loop.create_task(reciever.notify(EVT_ERROR))

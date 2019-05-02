@@ -4,6 +4,16 @@ from .session import session_handler
 from aiohttp import web
 import aiohttp_jinja2
 
+
+__all__ = [
+    "game_handler",
+    "landing_handler",
+    "show_leaderboard",
+    "update_leaderboard",
+    "login_handler",
+    "logout_handler",
+]
+
 #a queue for incoming ws clients(game oponents)
 queue = asyncio.Queue()
 
@@ -19,12 +29,12 @@ async def matchmaker(queue):
 
 
 #accepts ws clients and puts them in the oponent queue
-async def websocket_handler(request):
+async def game_handler(request):
     ws = web.WebSocketResponse()
-    lock = asyncio.Event()
     await ws.prepare(request)
-    await queue.put((ws, lock))
-    await lock.wait()
+    c = Client(ws)
+    await queue.put(c)
+    await c.wait_finished()
     return ws
 
 
@@ -42,6 +52,17 @@ async def show_leaderboard(request):
 #updates winrate for a specific user
 @session_middleware
 async def update_leaderboard(request):
+    pass
+
+
+#auth handlers
+@session_middleware
+async def logout_handler(request):
+    pass
+
+
+@session_middleware
+async def login_handelr(request):
     pass
 
 
