@@ -69,9 +69,9 @@ async def signup_handler(request):
     try:
         uid = await get_uid(request, data)
     except KeyError:
-        return web.Response(status=400, text="Bad request")
+        return web.Response(status=400, body=b'Username or password is missing')
     if uid != None:
-        return web.Response(status=401, text="Unauthorized")
+        return web.Response(status=401, body=b'User already exists')
 
     #add a new user to the database
     query = "INSERT INTO users_auth (name, password) VALUES (%(user)s, %(pwd)s)"
@@ -87,17 +87,17 @@ async def signup_handler(request):
 async def login_handler(request):
     session = await get_session(request)
     if not session.new:
-        return web.Response(status=401, text="Unauthorized")
+        return web.Response(status=401, body=b'User is already logged in')
 
     data = await request.post()
     try:
         uid = await get_uid(request, data)
     except KeyError:
-        return web.Response(status=400, text="Bad request")
+        return web.Response(status=400, body=b'Username or password is missing')
 
     #user not found
     if uid == None:
-        return web.Response(status=401, text="Unauthorized")
+        return web.Response(status=401, body=b'No such user')
 
     await create_session(request, uid)
     return web.Response(body=b'OK')
@@ -131,8 +131,9 @@ def sha256_hex(s):
 
 async def logout_handler(request):
     session = await get_session(request)
-    if not session.new:
-        session.invalidate()
+    if session.new:
+        return web.Response(status=400, body=b'User is not logged in')
+    session.invalidate()
     return web.Response(body=b'OK')
 
 
