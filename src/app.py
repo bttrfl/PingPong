@@ -36,8 +36,8 @@ async def init_app(conf):
     app.conf = conf
 
     #setup session storage
-    redis = await aioredis.create_pool((app.conf["redis_addr"], 6379))
-    setup(app, RedisStorage(redis))
+    redis = await aioredis.create_pool((app.conf["redis"]["addr"], app.conf["redis"]["port"]))
+    setup(app, RedisStorage(redis, max_age=app.conf["redis"]["ttl"]))
 
     app.db = await aiomysql.connect(**app.conf["mysql"], autocommit=True)
 
