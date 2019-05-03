@@ -7,6 +7,7 @@ import aiohttp_jinja2
 from aiohttp_session import get_session, new_session
 import json
 import hashlib
+import pymysql
 
 
 __all__ = [
@@ -65,23 +66,24 @@ async def show_leaderboard(request):
 #auth handlers
 async def signup_handler(request):
     data = await request.post()
-
-    #we first check if this user already exists in database
     try:
-        uid = await get_uid(request, data)
+        user = data["user"]
+        pwd = data["pwd"]
     except KeyError:
         return web.Response(status=400, body=b'Username or password is missing')
-    if uid != None:
-        return web.Response(status=401, body=b'User already exists')
 
     #add a new user to the database
     query = "INSERT INTO users_auth (name, password) VALUES (%(user)s, %(pwd)s)"
     db = request.app.db
     async with db.cursor() as cur:
-        #TODO use salt for password hashing
-        await cur.execute(query, {"user": data["user"], "pwd": sha256_hex(data["pwd"])})
+        try:
+            #TODO use salt for password hashing
+            await cur.execute(query, {"user": data["user"], "pwd": sha256_hex(data["pwd"])})
 
-    await create_session(request, uid)
+        #raised if we try to insert a duplicate entry
+        except pymysql.err.IntegrityError:
+            return web.Response(status=401, body=b'User already exists')
+
     return web.Response(body=b'OK')
 
 
@@ -92,36 +94,30 @@ async def login_handler(request):
 
     data = await request.post()
     try:
-        uid = await get_uid(request, data)
+        user = data["user"]
+        pwd = data["pwd"]
     except KeyError:
         return web.Response(status=400, body=b'Username or password is missing')
 
-    #user not found
-    if uid == None:
-        return web.Response(status=401, body=b'No such user')
+    query = "SELECT id, password FROM users_auth WHERE name=%(user)s"
+    db = request.app.db
+    async with db.cursor() as cur:
+        await cur.execute(query, {"user": user})
+        res = await cur.fetchone()
 
-    await create_session(request, uid)
-    return web.Response(body=b'OK')
+    try:
+        uid, upwd = res
+        #TODO use salt for password hashing
+        if upwd != sha256_hex(pwd):
+            raise
+    except Exception:
+        return web.Response(status=401, body=b'Invalid login or password')
 
-
-async def create_session(request, uid):
     session = await new_session(request)
     session["uid"] = uid
 
+    return web.Response(body=b'OK')
 
-#gets userid from a database for a given username and password
-async def get_uid(request, form_data):
-    user = form_data["user"]
-    pwd = form_data["pwd"]
-
-    query = "SELECT id FROM users_auth WHERE name=%(user)s AND password=%(pwd)s"
-    db = request.app.db
-    async with db.cursor() as cur:
-        #TODO use salt for password hashing
-        await cur.execute(query, {"user": user, "pwd": sha256_hex(pwd)})
-        res = await cur.fetchone()
-
-    return res[0] if res != None else None
 
 #returns a hex digest of a sha256 hash of a given string
 def sha256_hex(s):
