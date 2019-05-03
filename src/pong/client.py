@@ -2,8 +2,8 @@ import asyncio
 
 
 #predefined events
-EVT_READY = {"event": "gameReady"}
-EVT_ERROR = {"event": "wsError"}
+EVT_READY = "gameReady"
+EVT_ERROR = "wsError"
 
 
 #Client class represents a game client connected over ws
@@ -15,7 +15,7 @@ class Client:
 
 
     async def notify(self, event):
-        await self.ws.send_json(event)
+        await self.ws.send_json({"event": event})
 
 
     #wait until a client has finished playing
