@@ -1,6 +1,7 @@
 import asyncio
 import aiohttp
 import json
+from .client import EVT_READY, EVT_ERROR
 
 
 #handles game sessions
@@ -31,7 +32,7 @@ async def start_game(client1, client2):
 async def sync_events(sender, reciever):
     loop = asyncio.get_event_loop()
 
-    async for msg in sender:
+    async for msg in sender.ws:
         if msg.type == aiohttp.WSMsgType.TEXT:
             try:
                 event = json.loads(msg.data)["event"]

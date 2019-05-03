@@ -33,7 +33,7 @@ function keydown(socket) {
             l.style.top = h - 200 + "px";
         else
             l.style.top = nfp(l.style.top) + ps + "px";
-        
+
         var msg = {
           event: "moveUp"
         }
@@ -46,7 +46,7 @@ function keydown(socket) {
             l.style.top = 0 + "px";
         else
             l.style.top = nfp(l.style.top) - ps + "px";
-        
+
         var msg = {
           event: "moveDown"
         }
@@ -90,14 +90,14 @@ function opponentkeydown(direction){
 
 function game(){
   var socket = new WebSocket(
-    "ws://0.0.0.0:8080/ws"
+    "ws://0.0.0.0:8080/ws/game"
 //    window.location.protocol == 'https:' ? 'wss://' : 'ws://' +
 //    window.location.host + '/upload'
   );
-  
+
   socket.onopen = function() {
     socket.send("NU CHE NA NAROD POGNALI NAHOOI");
-    socket.send("EEEBANII V ROT"); 
+    socket.send("EEEBANII V ROT");
   };
 
   socket.onclose = function(event) {
@@ -180,7 +180,7 @@ function moveball() {
     }, balltime);
 }
 
-  
+
 moveball();
 
 

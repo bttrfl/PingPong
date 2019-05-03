@@ -1,6 +1,7 @@
 import asyncio
 import aiohttp
 from .session import session_handler
+from .client import Client
 from aiohttp import web
 import aiohttp_jinja2
 from aiohttp_session import get_session, new_session
