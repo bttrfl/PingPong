@@ -1,14 +1,11 @@
-#static files lie here
-static_path: static
-
 #templates lie here
 template_path: templates
 
 #mysql credentials
 mysql:
     host: mysql
-    user: root
-    password: root
+    user: pong
+    password: pongpong
     db: pong
 
 #redis instance for sessions
