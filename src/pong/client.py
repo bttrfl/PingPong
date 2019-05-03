@@ -14,9 +14,11 @@ class Client:
         self.done = asyncio.Event()
 
 
-    async def notify(self, event):
-        await self.ws.send_json({"event": event})
-
+    async def notify(self, event, pos):
+        if event == "gameReady":
+            await self.ws.send_json({"event": event, "pos": self.pos})
+        else:
+            await self.ws.send_json({"event": event, "pos": pos})
 
     #wait until a client has finished playing
     async def wait_finished(self):

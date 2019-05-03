@@ -1,4 +1,5 @@
 import asyncio
+from aiostream import stream
 import aiohttp
 import json
 from .client import EVT_READY, EVT_ERROR
@@ -10,7 +11,6 @@ async def session_handler(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
         loop.create_task(sync_events(client1, client2)),
-        loop.create_task(sync_events(client2, client1)),
     ]
 
     await asyncio.wait(tasks)
@@ -22,28 +22,32 @@ async def session_handler(client1, client2):
 async def start_game(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(client1.notify(EVT_READY)),
-        loop.create_task(client2.notify(EVT_READY)),
+        loop.create_task(client1.notify(EVT_READY, 0)),
+        loop.create_task(client2.notify(EVT_READY, 1)),
     ]
     await asyncio.wait(tasks)
 
 
 #syncs events between two clients in a game session
-async def sync_events(sender, reciever):
+async def sync_events(client1, client2):
     loop = asyncio.get_event_loop()
 
-    async for msg in sender.ws:
+
+    async for msg in stream.merge(client1.ws, client2.ws):
         if msg.type == aiohttp.WSMsgType.TEXT:
             try:
                 event = json.loads(msg.data)["event"]
+                pos = json.loads(msg.data)["pos"]
             except:
 
                 #if we couldn't decode message, we drop it
                 continue
 
             #don't wait for response, just create a background task
-            loop.create_task(reciever.notify(event))
+            loop.create_task(client1.notify(event, pos))
+            loop.create_task(client2.notify(event, pos))
 
         #special event is sent in case of ws error
         elif msg.type == aiohttp.WSMsgType.ERROR:
-            loop.create_task(reciever.notify(EVT_ERROR))
+            loop.create_task(client1.notify(EVT_ERROR, pos))
+            loop.create_task(client2.notify(EVY_ERROR, pos))

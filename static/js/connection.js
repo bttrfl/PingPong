@@ -26,29 +26,21 @@ onkeydown = onkeyup = function(e) {
 
 
 
-function keydown(socket) {
+function keydown(socket, pl_pos) {
     //if key was s
     if (map[83]) {
-        if (nfp(l.style.top) + ps > h - 200)
-            l.style.top = h - 200 + "px";
-        else
-            l.style.top = nfp(l.style.top) + ps + "px";
-
         var msg = {
-          event: "moveUp"
+          event: "moveUp",
+          pos: pl_pos
         }
         socket.send(JSON.stringify(msg));
     }
 
     //if key was w
     else if (map[87]) {
-        if (nfp(l.style.top) - ps < 0)
-            l.style.top = 0 + "px";
-        else
-            l.style.top = nfp(l.style.top) - ps + "px";
-
         var msg = {
-          event: "moveDown"
+          event: "moveDown",
+          pos: pl_pos
         }
         socket.send(JSON.stringify(msg));
     }
@@ -69,23 +61,42 @@ function ball() {
 
 
 
-function opponentkeydown(direction){
+function performkeydown(direction, pos){
     if (direction) {
-        if (nfp(r.style.top) + ps > h - 200)
-            r.style.top = h - 200 + "px";
+      if (pos){
+        
+        if (nfp(l.style.top) + ps > h - 200)
+            l.style.top = h - 200 + "px";
         else
-            r.style.top = nfp(r.style.top) + ps + "px";
+            l.style.top = nfp(l.style.top) + ps + "px";
+      
+      } else {
+        
+        if (nfp(r.style.top) + ps > h - 200)
+          r.style.top = h - 200 + "px";
+        else
+          r.style.top = nfp(r.style.top) + ps + "px";
+      }
     }
 
     else {
+      if (pos) {
+       
+       if (nfp(l.style.top) - ps < 0)
+            l.style.top = 0 + "px";
+        else
+            l.style.top = nfp(l.style.top) - ps + "px";
+
+      } else {
+        
         if (nfp(r.style.top) - ps < 0)
             r.style.top = 0 + "px";
         else
             r.style.top = nfp(r.style.top) - ps + "px";
+
+      }
     }
 }
-
-
 
 
 function game(){
@@ -109,6 +120,7 @@ function game(){
 
   socket.onmessage = function(event) {
     var msg = JSON.parse(event.data);
+    var pl_pos = "0";
 
     switch(msg.event){
       case "gameReady":
@@ -117,15 +129,16 @@ function game(){
         document.getElementById('game').style.visibility = 'visible';
         document.body.style.backgroundColor = 'black';
 
+        pl_pos = msg.pos;
         setInterval(function() {
-          keydown(socket);
+          keydown(socket, pl_pos);
         }, 10);
         break;
       case "moveUp":
-        opponentkeydown(true);
+        performkeydown(true, msg.pos == pl_pos);
         break;
       case "moveDown":
-        opponentkeydown(false);
+        performkeydown(false, msg.pos == pl.pos);
         break;
       case "gameOver":
         alert('not implemented');

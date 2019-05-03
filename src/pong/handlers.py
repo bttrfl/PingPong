@@ -47,6 +47,8 @@ async def matchmaker(queue):
     while True:
         c1 = await queue.get()
         c2 = await queue.get()
+        c1.pos = 1
+        c2.pos = 2
         loop = asyncio.get_event_loop()
         loop.create_task(session_handler(c1, c2))
 
