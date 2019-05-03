@@ -8,6 +8,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 #copy source code 
-COPY conf src static templates ./ 
+COPY src templates ./ 
+COPY conf/pong.yaml conf/pong.yaml
 
 CMD ["python3.7", "src/app.py", "--config", "conf/pong.yaml"]
