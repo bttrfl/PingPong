@@ -1,6 +1,3 @@
-#static files lie here
-static_path: static
-
 #templates lie here
 template_path: templates
 
