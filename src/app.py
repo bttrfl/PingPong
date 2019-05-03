@@ -3,10 +3,13 @@ from pong.handlers import start_background_tasks, cleanup_background_tasks
 from aiohttp import web
 import sys
 import yaml
-#import aiomysql
+import aiomysql
 import argparse
 import jinja2
 import aiohttp_jinja2
+import aioredis
+from aiohttp_session import setup
+from aiohttp_session.redis_storage import RedisStorage
 
 
 #runs pong server
@@ -30,9 +33,13 @@ def main():
 #setup routes, connect to db, redis, etc
 async def init_app(conf):
     app = web.Application()
-
     app.conf = conf
-#    app.db = await aiomysql.connect(**app.conf["mysql"])
+
+    #setup session storage
+    redis = await aioredis.create_pool((app.conf["redis"]["addr"], app.conf["redis"]["port"]))
+    setup(app, RedisStorage(redis, max_age=app.conf["redis"]["ttl"]))
+
+    app.db = await aiomysql.connect(**app.conf["mysql"], autocommit=True)
 
     app.add_routes(routes)
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(app.conf["template_path"]))

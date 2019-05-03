@@ -90,9 +90,8 @@ function opponentkeydown(direction){
 
 function game(){
   var socket = new WebSocket(
-    "ws://0.0.0.0:80/ws"
-//    window.location.protocol == 'https:' ? 'wss://' : 'ws://' +
-//    window.location.host + '/upload'
+    window.location.protocol == 'https:' ? 'wss://' : 'ws://' +
+    window.location.host + '/ws/game'
   );
 
   socket.onopen = function() {

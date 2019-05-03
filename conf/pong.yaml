@@ -7,3 +7,9 @@ mysql:
     user: pong
     password: pongpong
     db: pong
+
+#redis instance for sessions
+redis:
+    addr: redis
+    port: 6379
+    ttl: 86400
