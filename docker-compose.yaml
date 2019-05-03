@@ -7,14 +7,28 @@ services:
         restart: on-failure
         volumes:
             - ./:/app
-        ports:
-            - 8080:8080
         depends_on:
             - mysql
         networks:
             pong-net:
                 aliases:
                     - pong
+
+    nginx:
+        image: nginx:1.16
+        restart: always
+        volumes:
+            - ./static:/pong/static
+            - ./conf/nginx:/etc/nginx/conf.d
+        ports:
+            - 80:80
+            - 443:443
+        depends_on:
+            - pong
+        networks:
+            pong-net:
+                aliases:
+                    - nginx
 
     #database for leaderboard
     mysql:
@@ -23,6 +37,7 @@ services:
         restart: on-failure
         volumes:
             - ./data:/var/lib/mysql
+            - ./conf/mysql:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_PASSWORD: root
         networks:
