@@ -37,6 +37,7 @@ services:
         restart: on-failure
         volumes:
             - ./data:/var/lib/mysql
+            - ./conf/mysql:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_PASSWORD: root
         networks:

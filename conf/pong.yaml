@@ -4,6 +4,6 @@ template_path: templates
 #mysql credentials
 mysql:
     host: mysql
-    user: root
-    password: root
+    user: pong
+    password: pongpong
     db: pong
