@@ -8,6 +8,9 @@ from aiohttp_session import get_session, new_session
 import json
 import hashlib
 import pymysql
+import gettext
+import sys
+import os
 
 
 __all__ = [
@@ -19,16 +22,40 @@ __all__ = [
     "logout_handler",
 ]
 
+
+SETTINGS = {
+    'project_name': 'PingPong',
+    'version': '1.0',
+    'domain': 'pong',
+    'dir': {
+        'exec': '',
+        'lang': '',
+    },
+    'locales': {'en': 'en_US', 'ru': 'ru_RU'},
+    'locale': 'ru_RU',
+}
+
+
+path = sys.argv[0]
+lang = '../lang'
+SETTINGS['dir']['exec'] = os.path.realpath(os.path.dirname(path))
+SETTINGS['dir']['lang'] = os.path.realpath(os.path.join(os.path.dirname(path), lang))
+gettext.textdomain(SETTINGS['domain'])
+gettext.bindtextdomain(SETTINGS['domain'], SETTINGS['dir']['lang'])
+
 # a queue for incoming ws clients(game oponents)
 # TODO use a priority queue to match players with similar winrate/rating
 oponent_queue = asyncio.Queue()
-
+rus_cookies = {}
 
 # a handler for the main page
 @aiohttp_jinja2.template('index.html')
 async def landing_handler(request):
     session = await get_session(request)
-    return {}
+    if request.cookies not in rus_cookies:
+        return {'title': "Ping Pong Game", 'Multiplayer': "Multiplayer", 'GOAL': "GOAL"}
+    else:
+        return {'title': _("Ping Pong Game"), 'Multiplayer': _("Multiplayer"), 'GOAL': _("GOAL")}
 
 
 # accepts ws clients and puts them in the oponent queue
