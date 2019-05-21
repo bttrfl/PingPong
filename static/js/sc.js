@@ -1,142 +1,172 @@
-//ps= player speed
-var ps = 15;
+// класс определяющий параметры игрового прямоугольника и метод для его отрисовки
 
-function nfp(urpx) {
-    return Number(urpx.replace("px", ""))
+function rect(color, x, y, width, height) {
+    this.color = color; // цвет прямоугольника
+    this.x = x; // координата х
+    this.y = y; // координата у
+    this.width = width; // ширина
+    this.height = height; // высота
+    // функция рисует прямоугольник согласно заданным параметрам
+    this.draw = function() {
+        context.fillStyle = this.color;
+        context.fillRect(this.x, this.y, this.width, this.height);
+    };
 }
+// функция проверяет пересекаются ли переданные ей прямоугольные объекты
 
-var r = document.getElementById('right');
-var l = document.getElementById('left');
-var b = document.getElementById('ball');
-
-var rscore = document.getElementById('scoreleft');
-var lscore = document.getElementById('scoreright');
-var ogoal = document.getElementById('goal');
-
-var w = window.innerWidth;
-var h = window.innerHeight;
-
-var map = []; // Or you could call it "key"
-onkeydown = onkeyup = function(e) {
-    e = e || event; // to deal with IE
-    map[e.keyCode] = e.type == 'keydown';
-    /*insert conditional here*/
+function collision(objA, objB) {
+    if (objA.x + objA.width > objB.x && objA.x < objB.x + objB.width && objA.y + objA.height > objB.y && objA.y < objB.y + objB.height) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
+// движение игрока
 
+function playerMove(e) {
+    if (start) {
+        var direction, delta = 40;
+        if (e.keyCode == 38 || e.keyCode == 87) {
+            socket.send(JSON.stringify({"event": "moveUp"}))
+            direction = -1;
+        }
 
-
-function keydown() {
-    //if key was up arrow
-    if (map[40]) {
-        if (nfp(r.style.top) + ps > h - 200)
-            r.style.top = h - 200 + "px";
-        else
-            r.style.top = nfp(r.style.top) + ps + "px";
+        if (e.keyCode == 40 || e.keyCode == 83) {
+            socket.send(JSON.stringify({"event": "moveDown"}))
+            direction = 1;
+        }
+        var y = player1.y + direction*delta;
+        // условие проверяет не выходит ли ракетка за пределы поля
+        if (0 < y && y < game.height - player1.height) {
+            // привязываем положение мыши к середине ракетки
+            player1.y = y
+        }
     }
-
-
-
-    //if key was down arrow
-    else if (map[38]) {
-        if (nfp(r.style.top) - ps < 0)
-            r.style.top = 0 + "px";
-        else
-            r.style.top = nfp(r.style.top) - ps + "px";
-    }
-
-
-    //if key was s
-    if (map[83]) {
-        if (nfp(l.style.top) + ps > h - 200)
-            l.style.top = h - 200 + "px";
-        else
-            l.style.top = nfp(l.style.top) + ps + "px";
-    }
-
-    //if key was w
-    else if (map[87]) {
-        if (nfp(l.style.top) - ps < 0)
-            l.style.top = 0 + "px";
-        else
-            l.style.top = nfp(l.style.top) - ps + "px";
-    }
-
-    //40 down, 38 up
-    //w 87,s 83
 }
 
 
-var speedx = 3,
-    speedy = 1;
-var balltime = 1;
-b.style.left = w / 2 + "px";
-
-function ball() {
-    b.style.left = nfp(b.style.left) + speedx + "px";
-    b.style.top = nfp(b.style.top) + speedy + "px";
+function startGame() {
+    if (!start) {
+        ball.vX = -2;
+        ball.vY = 2;
+        start = true;
+    }
 }
 
+// отрисовка игры
 
+function draw() {
+    game.draw(); // игровое поле
+    // разделительная полоса
+    for (var i = 10; i < game.height; i += 45) {
+        context.fillStyle = "#ccc";
+        context.fillRect(game.width / 2 - 10, i, 20, 30);
+    }
+    // рисуем на поле счёт
+    context.font = 'bold 128px courier';
+    context.textAlign = 'center';
+    context.textBaseline = 'top';
+    context.fillStyle = '#ccc';
+    context.fillText(player2.scores, 100, 0);
+    context.fillText(player1.scores, game.width - 100, 0);
+    player2.draw(); // левая ракетка
+    player1.draw(); // ракетка игрока
+    ball.draw(); // шарик
+    if (!start) {
+    }
+}
+// игровые изменения которые нужно произвести
 
-
-function moveball() {
-    ball();
-
-    //remove overflow y
-    if (h < nfp(b.style.top) + 20 || nfp(b.style.top) < 0) {
-        speedy *= -1;
+function update() {
+    // двигаем ракетку оппонента
+    // меняем координаты шарика
+    // Движение по оси У
+    if (ball.y < 0 || ball.y + ball.height > game.height) {
+        // соприкосновение с полом и потолком игрового поля
+        ball.vY = -ball.vY;
+    }
+    // Движение по оси Х
+    if (ball.x < 0) {
+        // столкновение с левой стеной
+        ball.vX = -ball.vX;
+        player1.scores++;
+    }
+    if (ball.x + ball.width > game.width) {
+        // столкновение с правой
+        ball.vX = -ball.vX;
+        player2.scores++;
     }
 
-    //overflow-x right
-    if (nfp(b.style.left) >= w - 50) {
-        if (nfp(r.style.top) <= nfp(b.style.top) + 20 && nfp(r.style.top) + 200 >= nfp(b.style.top)) {
-            speedx *= -1;
-        } else if (nfp(b.style.left) >= w - 20)
-            goal('left');
+    // Если счёт равен десяти то завершаем партию
+    if (player2.scores === 10 || player1.scores === 10) {
+        if (player2.scores === 10) { // победа player2
+            start = false;
+            ball.x = game.width - player1.width - 1.5 * ball.width - 10;
+            ball.y = game.height / 2 - ball.width / 2;
+            player2.y = game.height / 2 - player2.height / 2;
+            player1.y = game.height / 2 - player2.height / 2;
+        } else { // победа игрока
+            start = false;
+            ball.x = player1.width + ball.width;
+            ball.y = game.height / 2 - ball.width / 2;
+            player2.y = game.height / 2 - player2.height / 2;
+            player1.y = game.height / 2 - player2.height / 2;
+        }
+        ball.vX = 0;
+        ball.vY = 0;
+        player2.scores = 0;
+        player1.scores = 0;
     }
 
-
-
-
-    //remove overflow x in left ir get the goal in left
-    if (nfp(b.style.left) <= 30) {
-        if (nfp(l.style.top) <= nfp(b.style.top) + 20 && nfp(l.style.top) + 200 >= nfp(b.style.top)) {
-            speedx *= -1;
-        } else if (nfp(b.style.left) <= 0)
-            goal('right');
+    // Соприкосновение с ракетками
+    if ((collision(player2, ball) && ball.vX < 0) || (collision(player1, ball) && ball.vX > 0)) {
+        // приращение скорости шарика
+        if (ball.vX < 9 && -9 < ball.vX) {
+            if (ball.vX < 0) {
+                ball.vX--;
+            } else {
+                ball.vX++;
+            }
+            if (ball.vY < 0) {
+                ball.vY--;
+            } else {
+                ball.vY++;
+            }
+        }
+        ball.vX = -ball.vX;
     }
-
-
-
-    setTimeout(function() {
-        moveball()
-    }, balltime);
+    // приращение координат
+    ball.x += ball.vX;
+    ball.y += ball.vY;
 }
 
+function play() {
+    draw(); // отрисовываем всё на холсте
+    update(); // обновляем координаты
+}
+// Инициализация переменных
 
-
-
-setInterval(function() {
-    keydown();
-}, 10);
-moveball();
-
-function goal(pos) {
-
-    ogoal.style.color = "white";
-
-    setTimeout(function() {
-        ogoal.style.color = "black"
-    }, 1000);
-
-    if (pos == "left")
-        rscore.innerHTML = Number(rscore.innerHTML) + 1;
-    else
-        lscore.innerHTML = Number(lscore.innerHTML) + 1;
-
-
-    speedx *= -1;
-    b.style.left = w / 2 + "px";
-
-
+function init() {
+    start = false;
+    // объект который задаёт игровое поле
+    game = new rect("#000", 0, 0, 800, 600);
+    // Ракетки-игроки
+    player2 = new rect("#ffffff", 10, game.height / 2 - 40, 20, 80);
+    player1 = new rect("#ffffff", game.width - 30, game.height / 2 - 40, 20, 80);
+    // количество очков
+    player2.scores = 0;
+    player1.scores = 0;
+    // наш квадратный игровой "шарик"
+    ball = new rect("#fff", 40, game.height / 2 - 10, 20, 20);
+    // скорость шарика
+    ball.vX = 0; // скорость по оси х
+    ball.vY = 0; // скорость по оси у
+    var canvas = document.getElementById("canvas");
+    canvas.width = game.width;
+    canvas.height = game.height;
+    context = canvas.getContext("2d");
+    window.addEventListener("keydown", playerMove, false);
+    canvas.onclick = startGame;
+    setInterval(play, 1000 / 50);
 }
