@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
     pong:
-        image: pong:0.0.1
+        image: bttrfl/pongonline:0.1
         restart: on-failure
         volumes:
             - ./:/app
