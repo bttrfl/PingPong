@@ -4,7 +4,7 @@ import json
 from .client import EVT_READY, EVT_ERROR
 
 
-#handles game sessions
+# handles game sessions
 async def session_handler(client1, client2):
     await start_game(client1, client2)
     loop = asyncio.get_event_loop()
@@ -18,7 +18,7 @@ async def session_handler(client1, client2):
     client2.set_finished()
 
 
-#sends events indicating the game is ready to begin
+# sends events indicating the game is ready to begin
 async def start_game(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
@@ -28,7 +28,7 @@ async def start_game(client1, client2):
     await asyncio.wait(tasks)
 
 
-#syncs events between two clients in a game session
+# syncs events between two clients in a game session
 async def sync_events(sender, reciever):
     loop = asyncio.get_event_loop()
 
@@ -36,14 +36,14 @@ async def sync_events(sender, reciever):
         if msg.type == aiohttp.WSMsgType.TEXT:
             try:
                 event = json.loads(msg.data)["event"]
-            except:
+            except Exception:
 
-                #if we couldn't decode message, we drop it
+                # if we couldn't decode message, we drop it
                 continue
 
-            #don't wait for response, just create a background task
+            # don't wait for response, just create a background task
             loop.create_task(reciever.notify(event))
 
-        #special event is sent in case of ws error
+        # special event is sent in case of ws error
         elif msg.type == aiohttp.WSMsgType.ERROR:
             loop.create_task(reciever.notify(EVT_ERROR))

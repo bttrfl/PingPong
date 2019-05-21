@@ -2,7 +2,7 @@ from aiohttp import web
 from .handlers import *
 
 
-#routing setup for the application
+# routing setup for the application
 routes = [
     web.get("/", landing_handler),
     web.get("/ws/game", game_handler),

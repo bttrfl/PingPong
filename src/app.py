@@ -12,7 +12,7 @@ from aiohttp_session import setup
 from aiohttp_session.redis_storage import RedisStorage
 
 
-#runs pong server
+# runs pong server
 def main():
     parser = argparse.ArgumentParser(description="Pong online app server")
     parser.add_argument('--config')
@@ -30,13 +30,13 @@ def main():
         return 1
 
 
-#setup routes, connect to db, redis, etc
+# setup routes, connect to db, redis, etc
 async def init_app(conf):
     app = web.Application()
     app.conf = conf
 
-    #setup session storage
-    redis = await aioredis.create_pool((app.conf["redis"]["addr"], app.conf["redis"]["port"]))
+    # setup session storage
+    redis = await aioredis.create_pool(app.conf["redis"]["addr"], app.conf["redis"]["port"])
     setup(app, RedisStorage(redis, max_age=app.conf["redis"]["ttl"]))
 
     app.db = await aiomysql.connect(**app.conf["mysql"], autocommit=True)
