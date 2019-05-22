@@ -30,7 +30,9 @@ async def landing_handler(request):
     lang = 'en'
     if 'lang' in request.cookies:
         lang = request.cookies['lang']
-    return localizer.localize(lang)
+    args = localizer.localize(lang)
+    args["logged_in"] = !session.new
+    return args
 
 
 # accepts ws clients and puts them in the oponent queue
