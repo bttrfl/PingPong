@@ -12,6 +12,7 @@ from aiohttp_session import setup
 from aiohttp_session.redis_storage import RedisStorage
 from pong.lang import localizer
 
+
 # runs pong server
 def main():
     parser = argparse.ArgumentParser(description="Pong online app server")
