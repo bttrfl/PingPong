@@ -31,7 +31,7 @@ async def landing_handler(request):
     if 'lang' in request.cookies:
         lang = request.cookies['lang']
     args = localizer.localize(lang)
-    args["logged_in"] = !session.new
+    args["logged_in"] = not session.new
     return args
 
 

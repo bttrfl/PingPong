@@ -1,7 +1,7 @@
 import gettext
 
 class localizer:
-    
+
 
     @classmethod
     def init(cls, path):
@@ -16,7 +16,7 @@ class localizer:
             'sign_in': 'Sign in',
             'sign_out': 'Sign out',
             'sign_up': 'Sign up',
-            'leaderboars': 'Leaderboard',
+            'leaderboard': 'Leaderboard',
             'username': 'Username',
             'password': 'Password',
             'pong_online': 'Pong online'

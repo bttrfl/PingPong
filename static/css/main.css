@@ -110,10 +110,30 @@ body {
 
 .auth_window {
     display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: sans-serif;
+    background: black;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    width: 350px;
+    padding: 15px;
 }
 
 .auth_button {
-
+    background: none;
+    color: white;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
 }
 
 #game {
@@ -122,4 +142,10 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+}
+
+.txt_area {
+    resize: none;
+    width: 80%;
+    border-radius: 4px;
 }
