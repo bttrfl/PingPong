@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> pong_online </title>
+        <title>{{ pong_online }}</title>
         <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     </head>
     <body>
         <div id="wrapper">
             <div class="header">
                 <div class="lang">
-                    <img class="lang_icon" src="/static/img/ru.png">
-                    <img class="lang_icon" src="/static/img/en.png">
+                    <img class="lang_icon" src="/static/img/ru.png" onclick="lang2ru()">
+                    <img class="lang_icon" src="/static/img/en.png" onclick="lang2en()">
                 </div>
                 <div class="menu">
-                    <button class="menu_btn" onclick="sign_in()"> sign_in </button>
-                    <button class="menu_btn" onclick="sign_out()"> sign_out </button>
-                    <button class="menu_btn" onclick="sign_up()"> sign_up </button>
+                    <button class="menu_btn" onclick="trigger_leaderboard()">{{ leaderboard }}</button>
+                    {% if logged_in %}
+                    <button class="menu_btn" onclick="sign_out()">{{ sign_out }}</button>
+                    {% else %}
+                    <button class="menu_btn" onclick="sign_in()">{{ sign_in }}</button>
+                    <button class="menu_btn" onclick="sign_up()">{{ sign_up }}</button>
+                    {% endif %}
                 </div>
             </div>
             <div class="landing">
-                <div class="title"> pong_online  </div>
-                <button class="start" onclick="connect()"> play </button>
+                <div class="title">{{ pong_online }}</div>
+                <button class="start" onclick="connect()">{{ play }}</button>
             </div>
             <div class="footer">
                 <a class="gh_link" href="https://github.com/fibersel/PingPong" target="_blank"><img src="/static/img/gh.png"></a>
@@ -29,17 +33,17 @@
 
             <div class="auth_window" id="signin_window">
                 <form id="signin_form" method="post" action="/user/login">
-                    <p> username </p>
-                    <p> password </p>
-                    <button type="submit" class="auth_button" value="Submit" form="signin_form"> sign_in </button>
+                    <p>{{ username }}</p>
+                    <p>{{ password }}</p>
+                    <button type="submit" class="auth_button" value="Submit" form="signin_form">{{ sign_in }}</button>
                 </form>
             </div>
 
             <div class="auth_window" id="signup_window">
                 <form id="signup_form" method="post" action="/user/signup">
-                    <p> username </p>
-                    <p> password </p>
-                    <button type="submit" class="auth_button" value="Submit" form="signup_form"> sign_up </button>
+                    <p>{{ username }}</p>
+                    <p>{{ password }}</p>
+                    <button type="submit" class="auth_button" value="Submit" form="signup_form">{{ sign_up }}</button>
                 </form>
             </div>
         
@@ -48,6 +52,7 @@
         <canvas id="game"></canvas>
         
         <script src="/static/js/jquery-3.4.1.min.js"></script>
+        <script src="/static/js/main.js"></script>
         <script src="/static/js/connection.js"></script>
         <script src="/static/js/game.js"></script>
     </body>

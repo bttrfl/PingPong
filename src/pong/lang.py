@@ -27,6 +27,3 @@ class localizer:
     @classmethod
     def localize(cls, lang):
         return cls._en if lang == "en" else cls._rus
-        
-
-
