@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <title>{title}</title>
-       <link rel="stylesheet" type="text/css" href="/static/css/page.css">
+        <title> pong_online </title>
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     </head>
     <body>
-    	<div class="landing"  id="main">
-    		<img src="/static/img/pong-sheet.png">
-    		<img src="/static/img/redmenubg-sheet.png">
-    		<div class="button" onclick="connect()">{Multiplayer}</div>
-    	</div>
-        <canvas id="canvas" style="display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)"></canvas>
-       <script src="/static/js/jquery-3.4.1.min.js"></script>
-       <script src="/static/js/connection.js"></script>
-        <script src="/static/js/sc.js"></script>
+        <div id="wrapper">
+            <div class="header">
+                <div class="lang">
+                    <img class="lang_icon" src="/static/img/ru.png">
+                    <img class="lang_icon" src="/static/img/en.png">
+                </div>
+                <div class="menu">
+                    <button class="menu_btn" onclick="sign_in()"> sign_in </button>
+                    <button class="menu_btn" onclick="sign_out()"> sign_out </button>
+                    <button class="menu_btn" onclick="sign_up()"> sign_up </button>
+                </div>
+            </div>
+            <div class="landing">
+                <div class="title"> pong_online  </div>
+                <button class="start" onclick="connect()"> play </button>
+            </div>
+            <div class="footer">
+                <a class="gh_link" href="https://github.com/fibersel/PingPong" target="_blank"><img src="/static/img/gh.png"></a>
+            </div>
+            
+            <div id="leaderboard"></div>
+
+            <div class="auth_window" id="signin_window">
+                <form id="signin_form" method="post" action="/user/login">
+                    <p> username </p>
+                    <p> password </p>
+                    <button type="submit" class="auth_button" value="Submit" form="signin_form"> sign_in </button>
+                </form>
+            </div>
+
+            <div class="auth_window" id="signup_window">
+                <form id="signup_form" method="post" action="/user/signup">
+                    <p> username </p>
+                    <p> password </p>
+                    <button type="submit" class="auth_button" value="Submit" form="signup_form"> sign_up </button>
+                </form>
+            </div>
+        
+        </div>
+
+        <canvas id="game"></canvas>
+        
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+        <script src="/static/js/connection.js"></script>
+        <script src="/static/js/game.js"></script>
     </body>
 </html>

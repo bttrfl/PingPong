@@ -139,7 +139,7 @@ function play() {
 function init() {
     start = false;
     // объект который задаёт игровое поле
-    game = new rect("#000", 0, 0, 800, 600);
+    game = new rect("#000", 0, 0, 1024, 768);
     // Ракетки-игроки
     player2 = new rect("#ffffff", 10, game.height / 2 - 40, 20, 80);
     player1 = new rect("#ffffff", game.width - 30, game.height / 2 - 40, 20, 80);
@@ -154,7 +154,7 @@ function init() {
     delta = 40;
     ball.x = game.width/2;
     ball.y = game.height/2;
-    var canvas = document.getElementById("canvas");
+    var canvas = document.getElementById("game");
     canvas.width = game.width;
     canvas.height = game.height;
     context = canvas.getContext("2d");
