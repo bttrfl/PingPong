@@ -26,10 +26,11 @@ function connect(){
             update_y(player2, player2.y + delta);
         break;
       case "gameOver":
-        alert('not implemented');
+        $("#game").fadeOut();
+        $("#wrapper").fadeIn();
         break;
       case "wsError":
-        alert('not implemented');
+        alert('Error: client disconnected');
         break;
     }
 
