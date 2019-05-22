@@ -1,4 +1,6 @@
-class lozalizer:
+import gettext
+
+class localizer:
     
 
     @classmethod
@@ -19,7 +21,7 @@ class lozalizer:
             'password': 'Password',
             'pong_online': 'Pong online'
             }
-        cls._rus = _rus = {k: _(_en[k]) for k in _en}
+        cls._rus =  {k: _(cls._en[k]) for k in cls._en}
 
 
     @classmethod
