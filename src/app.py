@@ -10,7 +10,7 @@ import aiohttp_jinja2
 import aioredis
 from aiohttp_session import setup
 from aiohttp_session.redis_storage import RedisStorage
-
+from pong.lang import localizer
 
 # runs pong server
 def main():
@@ -35,6 +35,7 @@ async def init_app(conf):
     app = web.Application()
     app.conf = conf
 
+    localizer.init(app.conf['loc_path'])
     # setup session storage
     redis = await aioredis.create_pool((app.conf["redis"]["addr"], app.conf["redis"]["port"]))
     setup(app, RedisStorage(redis, max_age=app.conf["redis"]["ttl"]))
