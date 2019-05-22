@@ -32,4 +32,5 @@ msgstr "Имя"
 msgid "Password"
 msgstr "Пароль"
 
-
+msgid "Pong online"
+msgstr "Понг онлайн"

@@ -1,4 +1,6 @@
-t = gettext.translation('ru', app.conf['loc_path'], languages=['ru'])
+import gettext
+
+t = gettext.translation('ru', 'localization', languages=['ru'])
 _ = t.gettext
 t.install()
 
@@ -10,9 +12,10 @@ _en = {
     'sign_in': 'Sign in',
     'sign_out': 'Sign out',
     'sign_up': 'Sign up',
-    'leaderboars': 'Leaderboard',
+    'leaderboard': 'Leaderboard',
     'username': 'Username',
-    'password': 'Password'
+    'password': 'Password',
+    'pong_online': 'Pong online',
     }
 
 _rus = {k: _(_en[k]) for k in _en}
