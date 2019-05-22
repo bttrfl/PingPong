@@ -8,8 +8,7 @@ from aiohttp_session import get_session, new_session
 import json
 import hashlib
 import pymysql
-from .lang import localize
-
+from .lang import localizer
 
 __all__ = [
     "game_handler",
@@ -31,7 +30,7 @@ async def landing_handler(request):
     lang = 'en'
     if 'lang' in request.cookies:
         lang = request.cookies['lang']
-    return localize(lang)
+    return localizer.localize(lang)
 
 
 # accepts ws clients and puts them in the oponent queue
