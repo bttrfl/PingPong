@@ -2,15 +2,6 @@ import gettext
 import sys
 import os
 
-__all__ = [
-    "game_handler",
-    "landing_handler",
-    "show_leaderboard",
-    "login_handler",
-    "signup_handler",
-    "logout_handler",
-]
-
 root = '../../lang'
 
 t = gettext.translation('ru', root, languages=['ru'])

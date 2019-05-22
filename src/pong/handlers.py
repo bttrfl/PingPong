@@ -10,6 +10,16 @@ import hashlib
 import pymysql
 from lang import localize
 
+__all__ = [
+    "game_handler",
+    "landing_handler",
+    "show_leaderboard",
+    "login_handler",
+    "signup_handler",
+    "logout_handler",
+]
+
+
 
 
 # a queue for incoming ws clients(game oponents)
