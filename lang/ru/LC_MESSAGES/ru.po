@@ -1,0 +1,35 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Play"
+msgstr "Играть"
+
+msgid "Play again"
+msgstr "Играть заново"
+
+msgid "You lost!"
+msgstr "Вы проиграли!"
+
+msgid "You won!"
+msgstr "Вы выиграли!"
+
+msgid "Sign in"
+msgstr "Войти"
+
+msgid "Sign out"
+msgstr "Выйти"
+
+msgid "Sign up"
+msgstr "регистрация"
+
+msgid "Leaderboard"
+msgstr "Таблица рекордов"
+
+msgid "Username"
+msgstr "Имя"
+
+msgid "Password"
+msgstr "Пароль"
+
+

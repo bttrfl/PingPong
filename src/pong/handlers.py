@@ -8,7 +8,7 @@ from aiohttp_session import get_session, new_session
 import json
 import hashlib
 import pymysql
-
+from lang import localize
 
 __all__ = [
     "game_handler",
@@ -19,18 +19,20 @@ __all__ = [
     "logout_handler",
 ]
 
+
+
+
 # a queue for incoming ws clients(game oponents)
 # TODO use a priority queue to match players with similar winrate/rating
 oponent_queue = asyncio.Queue()
-
 
 # a handler for the main page
 @aiohttp_jinja2.template('index.html')
 async def landing_handler(request):
     session = await get_session(request)
-    return {}
-
-
+    return localize(request.cookies) 
+   
+    
 # accepts ws clients and puts them in the oponent queue
 async def game_handler(request):
     ws = web.WebSocketResponse()
