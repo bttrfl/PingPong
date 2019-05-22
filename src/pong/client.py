@@ -13,8 +13,8 @@ class Client:
         self.ws = ws
         self.done = asyncio.Event()
 
-    async def notify(self, event):
-        await self.ws.send_json({"event": event})
+    async def notify(self, event, data=None):
+        await self.ws.send_json({"event": event, "data": data or {}})
 
     # wait until a client has finished playing
     async def wait_finished(self):

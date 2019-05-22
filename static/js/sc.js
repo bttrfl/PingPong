@@ -15,18 +15,13 @@ function rect(color, x, y, width, height) {
 // функция проверяет пересекаются ли переданные ей прямоугольные объекты
 
 function collision(objA, objB) {
-    if (objA.x + objA.width > objB.x && objA.x < objB.x + objB.width && objA.y + objA.height > objB.y && objA.y < objB.y + objB.height) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return objA.x + objA.width > objB.x && objA.x < objB.x + objB.width && objA.y + objA.height > objB.y && objA.y < objB.y + objB.height
 }
 // движение игрока
 
 function playerMove(e) {
     if (start) {
-        var direction, delta = 40;
+        var direction;
         if (e.keyCode == 38 || e.keyCode == 87) {
             socket.send(JSON.stringify({"event": "moveUp"}))
             direction = -1;
@@ -36,20 +31,26 @@ function playerMove(e) {
             socket.send(JSON.stringify({"event": "moveDown"}))
             direction = 1;
         }
-        var y = player1.y + direction*delta;
+        update_y(player1, player1.y + direction*delta);
         // условие проверяет не выходит ли ракетка за пределы поля
-        if (0 < y && y < game.height - player1.height) {
-            // привязываем положение мыши к середине ракетки
-            player1.y = y
-        }
     }
 }
 
+function update_y(player, y){
+        if (0 < y && y < game.height - player.height) {
+            player.y = y
+        }
+}
 
-function startGame() {
+function startGame(pos) {
+    if (pos == 2){
+        tmp = player1
+        player1 = player2
+        player2 = tmp
+    }
     if (!start) {
-        ball.vX = -2;
-        ball.vY = 2;
+        ball.vX = -4;
+        ball.vY = 4;
         start = true;
     }
 }
@@ -121,24 +122,12 @@ function update() {
 
     // Соприкосновение с ракетками
     if ((collision(player2, ball) && ball.vX < 0) || (collision(player1, ball) && ball.vX > 0)) {
-        // приращение скорости шарика
-        if (ball.vX < 9 && -9 < ball.vX) {
-            if (ball.vX < 0) {
-                ball.vX--;
-            } else {
-                ball.vX++;
-            }
-            if (ball.vY < 0) {
-                ball.vY--;
-            } else {
-                ball.vY++;
-            }
-        }
         ball.vX = -ball.vX;
     }
-    // приращение координат
     ball.x += ball.vX;
     ball.y += ball.vY;
+
+    console.log(player1, player2, ball)
 }
 
 function play() {
@@ -162,11 +151,13 @@ function init() {
     // скорость шарика
     ball.vX = 0; // скорость по оси х
     ball.vY = 0; // скорость по оси у
+    delta = 40;
+    ball.x = game.width/2;
+    ball.y = game.height/2;
     var canvas = document.getElementById("canvas");
     canvas.width = game.width;
     canvas.height = game.height;
     context = canvas.getContext("2d");
     window.addEventListener("keydown", playerMove, false);
-    canvas.onclick = startGame;
     setInterval(play, 1000 / 50);
 }

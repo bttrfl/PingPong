@@ -5,10 +5,8 @@ function connect(){
   );
 
   socket.onclose = function(event) {
-    document.getElementById('main').style.visibility = 'visible';
-    document.getElementById('main').style.visibility = 'block';
-    document.getElementById('canvas').style.visibility = 'hidden';
-    document.body.style.backgroundColor = '#404040';
+    $("#main").fadeOut();
+    $("#canvas").fadeIn();
   };
 
   socket.onmessage = function(event) {
@@ -16,15 +14,16 @@ function connect(){
 
     switch(msg.event){
       case "gameReady":
-        document.getElementById('main').style.visibility = 'hidden';
-        document.getElementById('main').style.display = 'none';
-        document.getElementById('canvas').style.visibility = 'visible';
-        document.body.style.backgroundColor = 'black';
+        $("#main").fadeOut();
+        $("#canvas").fadeIn();
         init();
+        startGame(msg.data.pos);
         break;
       case "moveUp":
+            update_y(player2, player2.y - delta);
         break;
       case "moveDown":
+            update_y(player2, player2.y + delta);
         break;
       case "gameOver":
         alert('not implemented');
@@ -33,6 +32,7 @@ function connect(){
         alert('not implemented');
         break;
     }
+
   };
 
   socket.onerror = function(error) {
