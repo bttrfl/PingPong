@@ -1,6 +1,9 @@
 #templates lie here
 template_path: templates
 
+#localization files lie here
+loc_path: localization
+
 #mysql credentials
 mysql:
     host: mysql

@@ -32,9 +32,7 @@ def main():
 
 # setup routes, connect to db, redis, etc
 async def init_app(conf):
-    app = web.Application(middlewares=[
-        EncryptedCookieStorage(b'Thirty  two  length  bytes  key.')
-    ])
+    app = web.Application()
     app.conf = conf
 
     # setup session storage

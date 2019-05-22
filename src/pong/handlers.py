@@ -10,6 +10,7 @@ import hashlib
 import pymysql
 from .lang import localize
 
+
 __all__ = [
     "game_handler",
     "landing_handler",
@@ -19,9 +20,6 @@ __all__ = [
     "logout_handler",
 ]
 
-
-
-
 # a queue for incoming ws clients(game oponents)
 # TODO use a priority queue to match players with similar winrate/rating
 oponent_queue = asyncio.Queue()
@@ -30,9 +28,12 @@ oponent_queue = asyncio.Queue()
 @aiohttp_jinja2.template('index.html')
 async def landing_handler(request):
     session = await get_session(request)
-    return localize(request.cookies) 
-   
-    
+    lang = 'en'
+    if 'lang' in request.cookies:
+        lang = request.cookies['lang']
+    return localize(lang)
+
+
 # accepts ws clients and puts them in the oponent queue
 async def game_handler(request):
     ws = web.WebSocketResponse()

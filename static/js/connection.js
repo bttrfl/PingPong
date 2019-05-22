@@ -5,8 +5,8 @@ function connect(){
   );
 
   socket.onclose = function(event) {
-    $("#main").fadeOut();
-    $("#canvas").fadeIn();
+    $("#game").fadeOut();
+    $("#wrapper").fadeIn();
   };
 
   socket.onmessage = function(event) {
@@ -14,8 +14,8 @@ function connect(){
 
     switch(msg.event){
       case "gameReady":
-        $("#main").fadeOut();
-        $("#canvas").fadeIn();
+        $("#wrapper").fadeOut();
+        $("#game").fadeIn();
         init();
         startGame(msg.data.pos);
         break;
