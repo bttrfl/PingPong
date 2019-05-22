@@ -21,7 +21,7 @@ msgid "Sign out"
 msgstr "Выйти"
 
 msgid "Sign up"
-msgstr "регистрация"
+msgstr "Регистрация"
 
 msgid "Leaderboard"
 msgstr "Таблица рекордов"

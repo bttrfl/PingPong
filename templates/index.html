@@ -32,18 +32,22 @@
             <div id="leaderboard"></div>
 
             <div class="auth_window" id="signin_window">
-                <form id="signin_form" method="post" action="/user/login">
+                <form id="signin_form" method="post" action="javascript:void(0)">
                     <p>{{ username }}</p>
+                    <p><textarea class="txt_area" name="user"></textarea></p>
                     <p>{{ password }}</p>
-                    <button type="submit" class="auth_button" value="Submit" form="signin_form">{{ sign_in }}</button>
+                    <p><textarea class="txt_area" name="pwd"></textarea></p>
+                    <button type="submit" class="auth_button" onclick="send('signin_form')">{{ sign_in }}</button>
                 </form>
             </div>
 
             <div class="auth_window" id="signup_window">
-                <form id="signup_form" method="post" action="/user/signup">
+                <form id="signup_form" method="post" action="javascript:void(0)">
                     <p>{{ username }}</p>
+                    <p><textarea class="txt_area" name="user"></textarea></p>
                     <p>{{ password }}</p>
-                    <button type="submit" class="auth_button" value="Submit" form="signup_form">{{ sign_up }}</button>
+                    <p><textarea class="txt_area" name="pwd"></textarea></p>
+                    <button type="submit" class="auth_button" onclick="send('signup_form')">{{ sign_up }}</button>
                 </form>
             </div>
         
