@@ -10,7 +10,6 @@ import aiohttp_jinja2
 import aioredis
 from aiohttp_session import setup
 from aiohttp_session.redis_storage import RedisStorage
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 
 # runs pong server
@@ -33,9 +32,7 @@ def main():
 
 # setup routes, connect to db, redis, etc
 async def init_app(conf):
-    app = web.Application(middlewares=[
-        EncryptedCookieStorage(b'Thirty  two  length  bytes  key.')
-    ])
+    app = web.Application()
     app.conf = conf
 
     # setup session storage

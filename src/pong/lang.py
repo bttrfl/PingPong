@@ -1,21 +1,10 @@
-import gettext
-import sys
-import os
-
-root = '../../lang'
-
-
-t = gettext.translation('ru', root, languages=['ru'])
+t = gettext.translation('ru', app.conf['loc_path'], languages=['ru'])
 _ = t.gettext
 t.install()
 
-
-rus_cookies = {}
-
-
 _en = {
-    'play': "Play", 
-    'play_again': "Play again", 
+    'play': "Play",
+    'play_again': "Play again",
     'you_won': "You won!",
     'you_lost': 'You lost!',
     'sign_in': 'Sign in',
@@ -26,11 +15,7 @@ _en = {
     'password': 'Password'
     }
 
-
 _rus = {k: _(_en[k]) for k in _en}
 
-
-def localize(cookie):
-    if cookie in rus_cookies:
-        return _rus
-    return _en
+def localize(lang):
+    return _en if lang == "en" else _rus
