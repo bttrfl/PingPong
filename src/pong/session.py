@@ -22,8 +22,8 @@ async def session_handler(client1, client2):
 async def start_game(client1, client2):
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(client1.notify(EVT_READY)),
-        loop.create_task(client2.notify(EVT_READY)),
+        loop.create_task(client1.notify(EVT_READY, {"pos": 1})),
+        loop.create_task(client2.notify(EVT_READY, {"pos": 2})),
     ]
     await asyncio.wait(tasks)
 
