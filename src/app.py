@@ -10,7 +10,6 @@ import aiohttp_jinja2
 import aioredis
 from aiohttp_session import setup
 from aiohttp_session.redis_storage import RedisStorage
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 
 # runs pong server

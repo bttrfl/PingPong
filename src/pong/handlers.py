@@ -8,7 +8,7 @@ from aiohttp_session import get_session, new_session
 import json
 import hashlib
 import pymysql
-from lang import localize
+from .lang import localize
 
 __all__ = [
     "game_handler",
