@@ -1,6 +1,7 @@
 import gettext
 
 
+# this class is used to translate messages
 class localizer:
 
     @classmethod

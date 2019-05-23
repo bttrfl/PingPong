@@ -55,7 +55,10 @@ function send(form_id){
     }
 
     $.post(url, { "user": user, "pwd": pwd })
-    .done(function( data ) {
+    .done(function(data) {
         document.location.reload();
+    })
+    .fail(function(data){
+        alert("Error")
     });
 }
