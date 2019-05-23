@@ -1,5 +1,4 @@
 import asyncio
-import aiohttp
 from .session import session_handler
 from .client import Client
 from aiohttp import web
@@ -22,6 +21,7 @@ __all__ = [
 # a queue for incoming ws clients(game oponents)
 # TODO use a priority queue to match players with similar winrate/rating
 oponent_queue = asyncio.Queue()
+
 
 # a handler for the main page
 @aiohttp_jinja2.template('index.html')
@@ -71,8 +71,8 @@ async def show_leaderboard(request):
 async def signup_handler(request):
     data = await request.post()
     try:
-        user = data["user"]
-        pwd = data["pwd"]
+        data["user"]
+        data["pwd"]
     except KeyError:
         return web.Response(status=400, body=b'Username or password is missing')
 

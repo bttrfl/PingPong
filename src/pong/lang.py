@@ -1,7 +1,8 @@
 import gettext
 
-class localizer:
 
+# this class is used to translate messages
+class localizer:
 
     @classmethod
     def init(cls, path):
@@ -20,9 +21,8 @@ class localizer:
             'username': 'Username',
             'password': 'Password',
             'pong_online': 'Pong online'
-            }
-        cls._rus =  {k: _(cls._en[k]) for k in cls._en}
-
+        }
+        cls._rus = {k: _(cls._en[k]) for k in cls._en}
 
     @classmethod
     def localize(cls, lang):

@@ -76,11 +76,6 @@ body {
     font-family: "Diary of an 8-bit mage";
 }
 
-.start:hover {
-    color: black;
-    background: white;
-}
-
 .footer {
     position: absolute;
     bottom: 50px;
@@ -136,6 +131,11 @@ body {
     padding: 10px;
 }
 
+.start:hover, .auth_button:hover {
+    color: black;
+    background: white;
+}
+
 #game {
     display: none;
     position: absolute;
@@ -148,4 +148,6 @@ body {
     resize: none;
     width: 80%;
     border-radius: 4px;
+    line-height: 25px;
+    font-size: 18px;
 }

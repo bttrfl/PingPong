@@ -34,9 +34,9 @@
             <div class="auth_window" id="signin_window">
                 <form id="signin_form" method="post" action="javascript:void(0)">
                     <p>{{ username }}</p>
-                    <p><textarea class="txt_area" name="user"></textarea></p>
+                    <p><input type="text" class="txt_area" name="user" rows="1"></input></p>
                     <p>{{ password }}</p>
-                    <p><textarea class="txt_area" name="pwd"></textarea></p>
+                    <p><input type="password" class="txt_area" name="pwd" rows="1"></input></p>
                     <button type="submit" class="auth_button" onclick="send('signin_form')">{{ sign_in }}</button>
                 </form>
             </div>
@@ -44,9 +44,9 @@
             <div class="auth_window" id="signup_window">
                 <form id="signup_form" method="post" action="javascript:void(0)">
                     <p>{{ username }}</p>
-                    <p><textarea class="txt_area" name="user"></textarea></p>
+                    <p><input type="text" class="txt_area" name="user" rows="1"></input></p>
                     <p>{{ password }}</p>
-                    <p><textarea class="txt_area" name="pwd"></textarea></p>
+                    <p><input type="password" class="txt_area" name="pwd" rows="1"></input></p>
                     <button type="submit" class="auth_button" onclick="send('signup_form')">{{ sign_up }}</button>
                 </form>
             </div>
